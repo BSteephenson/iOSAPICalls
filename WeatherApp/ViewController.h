@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface ViewController : UIViewController <UITextFieldDelegate>
+@interface ViewController : UIViewController <UITextFieldDelegate, NSURLConnectionDataDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *someLabel;
 @property (strong, nonatomic) IBOutlet MKMapView *map;

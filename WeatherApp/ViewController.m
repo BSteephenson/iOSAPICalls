@@ -11,12 +11,15 @@
 
 @interface ViewController ()
 
+@property(nonatomic, strong) NSMutableData *responseData;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.responseData = [[NSMutableData alloc] init];
 
 //    NSString *url = @"http://api.openweathermap.org/data/2.5/weather?q=Andover,ma&APPID=913cc0d4d446251a48b609496e946977";
 //    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
@@ -55,12 +58,34 @@
 
     NSString *place = self.textField.text;
 
-    NSString *url = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    NSString *urlString = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    
+
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [self.responseData appendData:data];
+    NSLog(self.responseData.description);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
     NSError *err;
-    if(data != nil)
+    if(self.responseData.length > 0)
     {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
+        id json = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&err];
         if([json isKindOfClass:[NSArray class]]){
             NSLog(@"array");
         }
