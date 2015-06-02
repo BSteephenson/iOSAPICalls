@@ -55,8 +55,22 @@
 
     NSString *place = self.textField.text;
 
-    NSString *url = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    NSString *urlString = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [urlSession dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        [self performSelectorOnMainThread:@selector(afterDataTaskIsFinishedWithData:) withObject:data waitUntilDone:NO];
+        
+    }];
+    
+    [task resume];
+    
+}
+
+- (void)afterDataTaskIsFinishedWithData:(NSData *)data
+{
     NSError *err;
     if(data != nil)
     {
