@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 
+
 @interface ViewController ()
 
 @end
@@ -54,9 +55,20 @@
     [self.progressCircle startAnimating];
 
     NSString *place = self.textField.text;
-
+    
     NSString *url = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+
+    dispatch_async(queue, ^{
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+        [self performSelectorOnMainThread:@selector(didReceiveFinishAPICallWithData:) withObject:data waitUntilDone:NO];
+    });
+    
+}
+
+- (void)didReceiveFinishAPICallWithData:(NSData *)data
+{
     NSError *err;
     if(data != nil)
     {
@@ -84,7 +96,7 @@
     }
     
     [self.progressCircle stopAnimating];
-
+    
 }
 
 //- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
