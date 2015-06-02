@@ -14,6 +14,7 @@
 		B54B52061B18A533006DBD77 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54B52051B18A533006DBD77 /* Images.xcassets */; };
 		B54B52091B18A533006DBD77 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B54B52071B18A533006DBD77 /* LaunchScreen.xib */; };
 		B54B52151B18A533006DBD77 /* WeatherAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B54B52141B18A533006DBD77 /* WeatherAppTests.m */; };
+		B54B521F1B18AE75006DBD77 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54B521E1B18AE75006DBD77 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		B54B520E1B18A533006DBD77 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54B52131B18A533006DBD77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B54B52141B18A533006DBD77 /* WeatherAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherAppTests.m; sourceTree = "<group>"; };
+		B54B521E1B18AE75006DBD77 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54B521F1B18AE75006DBD77 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		B54B51EC1B18A533006DBD77 = {
 			isa = PBXGroup;
 			children = (
+				B54B521E1B18AE75006DBD77 /* MapKit.framework */,
 				B54B51F71B18A533006DBD77 /* WeatherApp */,
 				B54B52111B18A533006DBD77 /* WeatherAppTests */,
 				B54B51F61B18A533006DBD77 /* Products */,
@@ -168,6 +172,7 @@
 				TargetAttributes = {
 					B54B51F41B18A533006DBD77 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = E2N478CBUW;
 					};
 					B54B520D1B18A533006DBD77 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -347,9 +352,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -357,9 +366,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WeatherApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

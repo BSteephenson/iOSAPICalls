@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface ViewController ()
 
@@ -16,12 +17,85 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+//    NSString *url = @"http://api.openweathermap.org/data/2.5/weather?q=Andover,ma&APPID=913cc0d4d446251a48b609496e946977";
+//    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+//    NSError *err;
+//    if(data != nil)
+//    {
+//        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
+//        if([json isKindOfClass:[NSArray class]]){
+//            NSLog(@"array");
+//        }
+//        else if([json isKindOfClass:[NSDictionary class]]){
+//            NSDictionary *dict = json;
+//            self.someLabel.text = [[[dict objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"description"];
+//        }
+//    }
+//    else
+//    {
+//        self.someLabel.text = @"Invalid request";
+//    }
+//
+    self.textField.delegate = self;
+//    [self.textField becomeFirstResponder];
+    self.progressCircle.hidesWhenStopped = YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (IBAction)getWeather:(id)sender {
+
+    self.progressCircle.hidden = NO;
+    [self.progressCircle startAnimating];
+
+    NSString *place = self.textField.text;
+
+    NSString *url = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/weather?q=%@&APPID=913cc0d4d446251a48b609496e946977", place];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+    NSError *err;
+    if(data != nil)
+    {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&err];
+        if([json isKindOfClass:[NSArray class]]){
+            NSLog(@"array");
+        }
+        else if([json isKindOfClass:[NSDictionary class]]){
+            NSDictionary *dict = json;
+            self.someLabel.text = [[[dict objectForKey:@"weather"] objectAtIndex:0] objectForKey:@"description"];
+            float longitude =  [[[dict objectForKey:@"coord"] objectForKey:@"lon"] floatValue];
+            float latitude =  [[[dict objectForKey:@"coord"] objectForKey:@"lat"] floatValue];
+            
+            CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(latitude, longitude);
+            
+            MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, pow(10, 5), pow(10, 5));
+            [self.map setRegion:region animated:YES];
+            
+            
+        }
+    }
+    else
+    {
+        self.someLabel.text = @"Invalid request";
+    }
+    
+    [self.progressCircle stopAnimating];
+
+}
+
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+//{
+//    return YES;
+//}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
